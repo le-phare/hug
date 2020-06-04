@@ -1,0 +1,25 @@
+{
+    "autoload": {
+        "psr-4": {
+           "Hug\\": "src"
+        },
+        "classmap": ["src"]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Hug\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "symfony/console": "^5.1",
+        "symfony/filesystem": "^5.1",
+        "php": ">=7.2",
+        "symfony/yaml": "^5.1"
+    },
+
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "symfony/var-dumper": "^5.1",
+        "phpstan/phpstan": "^0.12.25"
+    }
+}
