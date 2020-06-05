@@ -2,7 +2,7 @@
 
 namespace Hug\Command;
 
-use Hug\Parse\parseJson;
+use Hug\Service\parseJson;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class hug_command extends Command
 {
-	public static $defaultName ='hug:generate';
+	public static $defaultName ='hug:generate'; // TODO: hug simplement
 
 	    public function __construct()
     {
@@ -21,7 +21,7 @@ class hug_command extends Command
 	protected function configure()
     {
         $this
-        	->setDescription('generate')
+        	->setDescription('generate') // génère quoi ?
         	->setHelp('Récupère le composer.json à la racine du projet et viens générer un fichier goss_projet.yaml pour venir le tester par la suite avec Goss')
 
         ;
@@ -34,8 +34,10 @@ class hug_command extends Command
         '==============================',
         '',
     ]);
-         $array = parseJson();
+        // $this->service->parseJson();
+         $array = parseJson(); 
          $yaml = Yaml::dump($array);
+         // TODO: si fichier écrasé, le précisé dans les logs
 
         file_put_contents('./fichierGoss/goss_projet.yaml', $yaml, FILE_APPEND);
         return Command::SUCCESS;

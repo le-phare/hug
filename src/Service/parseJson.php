@@ -1,10 +1,11 @@
 <?php
 
-namespace Hug\Parse;
+namespace Hug\Service;
 
-
+//todo: ParseJson
 class parseJson
 {
+	// todo: pas de static
 	 public static function parseJson(): array
     {
 		$json = file_get_contents('/../tests/composer.json');
