@@ -2,7 +2,8 @@
 
 namespace Hug\Command;
 
-use Hug\Parse\ParseJson;
+use Hug\Parse\parseJson;
+use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -33,6 +34,10 @@ class hug_command extends Command
         '==============================',
         '',
     ]);
+         $array = parseJson();
+         $yaml = Yaml::dump($array);
+
+        file_put_contents('./fichierGoss/goss_projet.yaml', $yaml, FILE_APPEND);
         return Command::SUCCESS;
 
     }
