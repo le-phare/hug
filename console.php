@@ -3,12 +3,12 @@
 require_once __DIR__ . '/vendor/autoload.php';
 
 use Symfony\Component\Console\Application;
-use Hug\Command\hug_command;
-use Hug\Parse\parseJson;
+use Hug\Command\HugCommand;
+use Hug\Service\ParseJson;
 
 $app = new Application();
-$parseJson = new parseJson();
-$command = new hug_command();
+$parseJson = new ParseJson();
+$command = new HugCommand($parseJson);
 
 $app->add($command);
 
