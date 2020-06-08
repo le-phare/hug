@@ -1,3 +1,6 @@
 http:
-    'http://proxibleus.hde.lph/test_projet.php': { status: 200, body: [null, null, null, null, null, null, null, null, null] }
-ext-jsonext-test
+  -
+    status: 200
+    body: null
+- ext-json
+- ext-test
