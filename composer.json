@@ -1,4 +1,8 @@
 {
+    "name": "lephare/hug",
+    "license": "proprietary",
+    "type": "project",
+    "description": "Application console Symfony pour génération de fichier goss.yaml à partir d'un composer.json",
     "autoload": {
         "psr-4": {
            "Hug\\": "src"
