@@ -9,6 +9,7 @@ class ParseJson
     public function ParseJson(array $ansible): void
     {
         $json = file_get_contents('./tests/composer.json');
+        // TODO: camelCase
         $json_data = json_decode($json, true);
         $extensions = $json_data['require'];
         $keys = array_keys($extensions);
