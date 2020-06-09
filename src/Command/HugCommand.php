@@ -11,7 +11,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 class HugCommand extends Command
 {
     public static $defaultName = 'hug';
-
+    /**
+     * @var ParseJson
+     */
     private $parseJson;
 
     public function __construct(ParseJson $parseJson)
@@ -28,7 +30,7 @@ class HugCommand extends Command
             ->addOption(
                 'ansible-path',
                 'anspath',
-                InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+                InputOption::VALUE_REQUIRED,
                 "Récupérer les variables d'environnement Ansible du projet"
             )
 
