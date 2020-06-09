@@ -19,11 +19,13 @@ class ParseJson
         //récupérer URL selon chemin Ansible
         $temp = array_values($ansible);
         $string = implode('', $temp);
+        // TODO: utiliser parse_ini
         $url = file_get_contents($string, false, null, 5); //récupère la valeur après [app] => pas très propre
         // TODO: avec symfony plus de print_r, utilise dump() du composant symfony/dumper si tu veux debugger, sinon le LoggerInterface si tu veux logger.
         print_r($url);
 
         if (file_exists('./fichierGoss/goss_projet.yaml')) {
+            // TODO: utiliser le logger
             echo 'Le fichier existe déjà, il va être supprimé';
             $template = Yaml::dump([
                 'http' => [$url => ['status' => 200, 'body' => null]],
