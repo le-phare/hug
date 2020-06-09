@@ -9,4 +9,4 @@ qualite-php:
     - composer validate
     - composer install --prefer-dist --no-interaction --no-progress --no-suggest --dev
   script:
-    - compsoer run lint:php-cs-fixer
+    - composer run lint:php-cs-fixer
