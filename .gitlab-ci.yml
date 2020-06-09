@@ -10,4 +10,4 @@ qualite-php:
     - composer install --prefer-dist --no-interaction --no-progress --no-suggest --dev
   script:
     - composer run lint:php-cs-fixer
-    - composer run lint:php
+    - composer run lint:phpstan
