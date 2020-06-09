@@ -2,40 +2,56 @@
 
 namespace Hug\Service;
 
+use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Yaml\Yaml;
 
 class ParseJson
 {
+    /**
+     * ParseJson constructor.
+     *
+     * @param LoggerInterface $logger
+     */
+    private $logger;
+
+    public function __construct()
+    {
+        $this->logger = new Logger('hugLog');
+    }
+
     public function ParseJson(string $ansible): void
     {
         $json = file_get_contents('./tests/composer.json');
-        $json_data = json_decode($json, true);
-        $extensions = $json_data['require'];
+        $jsonData = json_decode($json, true);
+        $extensions = $jsonData['require'];
         $keys = array_keys($extensions);
         $pattern = '/^ext-/i';
         $array = preg_grep($pattern, $keys);
         $yaml = array_values($array);
-        $url = file_get_contents($ansible, false, null, 5); //récupère la valeur après [app] => pas très propre
-        print_r($url);
+        $url = $this->getHost($ansible);
 
         if (file_exists('./fichierGoss/goss_projet.yaml')) {
-            echo 'Le fichier existe déjà, il va être supprimé';
-            $template = Yaml::dump([
-                'http' => [$url => ['status' => 200, 'body' => null]],
-            ], 4, 2);
-            file_put_contents('./fichierGoss/goss_projet.yaml', $template);
-            $phpExtensions = Yaml::dump($yaml, 2, 2, 0);
-            file_put_contents('fichierGoss/goss_projet.yaml', $phpExtensions, FILE_APPEND);
-        } else {
-            $template = Yaml::dump([
-                'http' => [$url => ['status' => 200, 'body' => null]],
-            ], 4, 2);
-            file_put_contents('./fichierGoss/goss_projet.yaml', $template);
-            $phpExtensions = Yaml::dump($yaml, 2, 2, 0);
-            file_put_contents('fichierGoss/goss_projet.yaml', $phpExtensions, FILE_APPEND);
+            $this->logger->info('Le fichier goss_projet.yaml existe déjà, il va être supprimé');
         }
+        $template = Yaml::dump([
+                'http' => [
+                    $url => [
+                        'status' => 200,
+                        'body' => $yaml,
+                    ],
+                ],
+            ], 4, 2);
+        file_put_contents('./fichierGoss/goss_projet.yaml', $template);
+    }
+
+    private function getHost(string $ansible): string
+    {
+        $temp1 = file_get_contents($ansible);
+        $temp2 = explode(PHP_EOL, $temp1);
+        $url = $temp2[1];
+        $this->logger->info('Url de la machine à tester', ['url' => $url]);
+
+        return $url;
     }
 }
-
-// parser la conf ansible, ajouter une option --ansible-path pour récupérer un dossier externe à /hugo
-// fichier hosts dans ansible, se renseigner sur la config ansible du phare ou conf général
