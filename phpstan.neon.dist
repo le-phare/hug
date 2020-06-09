@@ -1,0 +1,10 @@
+parameters:
+    level: 6
+    paths:
+        - src
+    excludes_analyse:
+        - %currentWorkingDirectory%/src/tests/*
+includes:
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+
