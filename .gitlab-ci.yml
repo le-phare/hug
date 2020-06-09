@@ -2,7 +2,7 @@ stages:
   - qualite
 
 qualite-php:
-  image: lephare/php:7/2
+  image: lephare/php:7.2
   stage: qualite
   before_script:
     - composer global require hirak/prestissimo --no-interaction --no-progress --no-suggest
