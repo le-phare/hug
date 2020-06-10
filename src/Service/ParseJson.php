@@ -2,8 +2,8 @@
 
 namespace Hug\Service;
 
-use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use Symfony\Component\Yaml\Yaml;
 
 class ParseJson
