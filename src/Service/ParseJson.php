@@ -3,28 +3,27 @@
 namespace Hug\Service;
 
 use Monolog\Logger;
-use Psr\Log\LoggerInterface;
+use Monolog\Handler\StreamHandler;
 use Symfony\Component\Yaml\Yaml;
 
 class ParseJson
 {
     /**
-     * ParseJson constructor.
-     *
-     * @param LoggerInterface $logger
+     * @var Logger
      */
     private $logger;
 
     public function __construct()
     {
         $this->logger = new Logger('hugLog');
+        $this->logger->pushHandler(new StreamHandler('php://stdout', Logger::INFO));
     }
 
     public function ParseJson(string $ansible): void
     {
-        $json = file_get_contents('./tests/composer.json');
-        $jsonData = json_decode($json, true);
-        $extensions = $jsonData['require'];
+        $json = file_get_contents('./tests/composer.json'); //Récupération du contenu du composer.json
+        $jsonData = json_decode($json, true); //Convertit la chaîne json en variable PHP
+        $extensions = $jsonData['require']; //Recherche de la mention 'require' pour obtenir la liste des extensions
         $keys = array_keys($extensions);
         $pattern = '/^ext-/i';
         $array = preg_grep($pattern, $keys);

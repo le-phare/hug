@@ -43,9 +43,11 @@ class HugCommand extends Command
         'Génération du goss_projet.yaml',
         '==============================',
     ]);
+        if ($output->isVerbose()){
+            $output->writeln('verbosité');
+        }
         $ansible = $input->getOption('ansible-path');
         $this->parseJson->ParseJson($ansible);
-        // TODO: si fichier écrasé, le précisé dans les logs
         return Command::SUCCESS;
     }
 }
