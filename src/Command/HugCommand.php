@@ -22,7 +22,7 @@ class HugCommand extends Command
         $this->parseJson = $parseJson;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription("(TEST CONFIGURATION) - Génère un fichier goss_projet.yaml à partir d'un composer.json")

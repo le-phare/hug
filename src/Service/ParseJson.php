@@ -3,15 +3,12 @@
 namespace Hug\Service;
 
 use Monolog\Logger;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Yaml\Yaml;
 
 class ParseJson
 {
     /**
-     * ParseJson constructor.
-     *
-     * @param LoggerInterface $logger
+     * @var Logger
      */
     private $logger;
 
