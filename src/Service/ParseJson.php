@@ -34,13 +34,13 @@ class ParseJson
             $this->logger->info('Le fichier goss_projet.yaml existe déjà, il va être supprimé');
         }
         $template = Yaml::dump([
-                'http' => [
-                    $url => [
-                        'status' => 200,
-                        'body' => $yaml,
-                    ],
+            'http' => [
+                $url => [
+                    'status' => 200,
+                    'body' => $yaml,
                 ],
-            ], 4, 2);
+            ],
+        ], 4, 2);
         file_put_contents('./fichierGoss/goss_projet.yaml', $template);
     }
 

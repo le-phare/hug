@@ -40,9 +40,9 @@ class HugCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln([
-        'Génération du goss_projet.yaml',
-        '==============================',
-    ]);
+            'Génération du goss_projet.yaml',
+            '==============================',
+        ]);
         $ansible = $input->getOption('ansible-path');
         $this->parseJson->ParseJson($ansible);
         if ($output->isVerbose()) {
