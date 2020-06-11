@@ -1,4 +1,6 @@
 #untrack folders
 
-vendor
-.idea
+vendor/
+.idea/
+vendor-bin/
+*.phar

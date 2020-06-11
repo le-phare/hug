@@ -11,3 +11,15 @@ qualite-php:
   script:
     - composer run lint:php-cs-fixer
     - composer run lint:phpstan
+phar:
+  image: lephare/php:7.2
+  stage: build phar
+  script:
+    - composer global require hirak/prestissimo --no-interaction --no-progress --no-suggest
+    - composer require --dev bamarni/composer-bin-plugin
+    - composer bin box require --dev humbug/box
+    - vendor/bin/box compile
+  artifacts:
+    paths:
+      - hug.phar
+
