@@ -22,7 +22,7 @@ class HugCommand extends Command
         $this->parseJson = $parseJson;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription("(TEST CONFIGURATION) - Génère un fichier goss_projet.yaml à partir d'un composer.json")
@@ -43,11 +43,13 @@ class HugCommand extends Command
         'Génération du goss_projet.yaml',
         '==============================',
     ]);
-        if ($output->isVerbose()) {
-            $output->writeln('verbosité');
-        }
         $ansible = $input->getOption('ansible-path');
         $this->parseJson->ParseJson($ansible);
+        if ($output->isVerbose()) {
+            $output->writeln("Fichier goss généré : ");
+            $output->writeln(
+                file_get_contents('./fichierGoss/goss_projet.yaml'));
+        }
 
         return Command::SUCCESS;
     }

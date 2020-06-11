@@ -2,3 +2,7 @@
 
 vendor
 .idea
+vendor-bin
+
+#Build
+*.phar
