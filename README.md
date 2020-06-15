@@ -11,9 +11,10 @@
 
 ## Usage
 
-- Option obligatoire : --ansible-path
+- Option obligatoire : --ansible-path | -a
 - Exemple (dans un conteneur Docker) : dc run --rm hug.phar --ansible-path=./path/to/ansible/environnement/hosts
- 
+- Note : pas de '=' avec le raccourci -a : dc run --rm hug.phar -a ./path/to/ansible/environnement/hosts
+
 ## Requirements
 
 - Votre fichier ./ansible/environnement/hosts doit être au format : 

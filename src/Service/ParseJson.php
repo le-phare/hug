@@ -49,7 +49,7 @@ class ParseJson
         $temp1 = file_get_contents($ansible);
         $temp2 = explode(PHP_EOL, $temp1);
         $url = $temp2[1];
-        $this->logger->info('Url de la machine à tester', ['url' => $url]);
+        $this->logger->info('Url de la machine à tester', ['url :' => $url]);
 
         return $url;
     }

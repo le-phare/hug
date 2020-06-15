@@ -29,7 +29,7 @@ class HugCommand extends Command
             ->setHelp('Récupère le composer.json à la racine du projet et viens générer un fichier goss_projet.yaml pour venir le tester par la suite avec Goss')
             ->addOption(
                 'ansible-path',
-                'anspath',
+                'a',
                 InputOption::VALUE_REQUIRED,
                 "Récupérer les variables d'environnement Ansible du projet"
             )
