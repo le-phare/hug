@@ -2,7 +2,7 @@
 
 namespace Hug\Command;
 
-use Hug\Service\ParseJson;
+use Hug\Service\ParseJsonService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -12,11 +12,11 @@ class HugCommand extends Command
 {
     public static $defaultName = 'hug';
     /**
-     * @var ParseJson
+     * @var ParseJsonService
      */
     private $parseJson;
 
-    public function __construct(ParseJson $parseJson)
+    public function __construct(ParseJsonService $parseJson)
     {
         parent::__construct();
         $this->parseJson = $parseJson;

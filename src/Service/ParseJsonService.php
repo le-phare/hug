@@ -6,7 +6,7 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Symfony\Component\Yaml\Yaml;
 
-class ParseJson
+class ParseJsonService
 {
     /**
      * @var Logger
@@ -19,9 +19,9 @@ class ParseJson
         $this->logger->pushHandler(new StreamHandler('php://stdout'));
     }
 
-    public function ParseJson(string $ansible): void
+    public function ParseJson(string $ansible, string $composerPath = './composer.json'): void
     {
-        $json = file_get_contents('./tests/composer.json'); //Récupération du contenu du composer.json
+        $json = file_get_contents($composerPath); //Récupération du contenu du composer.json
         $jsonData = json_decode($json, true); //Convertit la chaîne json en variable PHP
         $extensions = $jsonData['require']; //Recherche de la mention 'require' pour obtenir la liste des extensions
         $keys = \array_keys($extensions);
@@ -41,7 +41,7 @@ class ParseJson
             'http' => [
                 $url => [
                     'status' => 200,
-                    'body' => array_values($array),
+                    'body' => \array_values($array),
                 ],
             ],
         ], 4, 2);
@@ -57,7 +57,7 @@ class ParseJson
             throw new \Exception('Le fichier Ansible est introuvable');
         }
         $temp1 = file_get_contents($ansible);
-        if (false == empty($temp1)) {
+        if (1 == empty($temp1)) {
             throw new \Exception('Le fichier Ansible est vide');
         }
         $temp2 = explode(PHP_EOL, $temp1);

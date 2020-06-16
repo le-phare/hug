@@ -1,9 +1,9 @@
 <?php
 
-namespace Hug\Tests;
+namespace Hug\Tests\Command;
 
 use Hug\Command\HugCommand;
-use Hug\Service\ParseJson;
+use Hug\Service\ParseJsonService;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -16,6 +16,10 @@ class HugCommandTest extends TestCase
      */
     private $path;
     /**
+     * @var string
+     */
+    private $root;
+    /**
      * @var Filesystem
      */
     private $fileSystem;
@@ -27,14 +31,15 @@ class HugCommandTest extends TestCase
     public function setUp(): void
     {
         $this->fileSystem = new Filesystem();
-        $this->path = './ansible/preprod/hosts';
-        $this->file = './fichierGoss/goss_projet.yaml';
+        $this->root = './tests/mock/';
+        $this->path = $this->root.'hosts';
+        $this->file = 'fichierGoss/goss_projet.yaml';
     }
 
     public function testExecute(): void
     {
         $app = new Application();
-        $parse = new ParseJson();
+        $parse = new ParseJsonService();
         $app->add(new HugCommand($parse));
         $command = $app->find('hug');
         $commandTester = new CommandTester($command);
@@ -52,5 +57,11 @@ class HugCommandTest extends TestCase
       - ext-test
 ';
         $this->assertEquals($expectedFile, file_get_contents($this->file));
+    }
+
+    public function tearDown(): void
+    {
+        $fileSystem = new Filesystem();
+        $fileSystem->remove($this->file);
     }
 }
