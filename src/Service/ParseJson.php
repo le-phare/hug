@@ -26,7 +26,6 @@ class ParseJson
         $extensions = $jsonData['require']; //Recherche de la mention 'require' pour obtenir la liste des extensions
         $keys = array_keys($extensions);
         $array = preg_grep('/^ext-/i', $keys);
-        $yaml = array_values($array);
         $url = $this->getHost($ansible);
 
         if (file_exists('./fichierGoss/goss_projet.yaml')) {
@@ -36,7 +35,7 @@ class ParseJson
             'http' => [
                 $url => [
                     'status' => 200,
-                    'body' => $yaml,
+                    'body' => array_values($array)
                 ],
             ],
         ], 4, 2);
@@ -45,8 +44,10 @@ class ParseJson
 
     private function getHost(string $ansible): string
     {
+	// TODO: cas d'exception où je passe un mauvais chemin, lever une exception ici
         $temp1 = file_get_contents($ansible);
         $temp2 = explode(PHP_EOL, $temp1);
+	// TODO: si le fichier est vide, ça plante car ton tableau sera vide
         $url = $temp2[1];
         $this->logger->info('Url de la machine à tester', ['url :' => $url]);
 
