@@ -26,12 +26,12 @@ class HugCommand extends Command
     {
         $this
             ->setDescription("(TEST CONFIGURATION) - Génère un fichier goss_projet.yaml à partir d'un composer.json")
-            ->setHelp('Récupère le composer.json à la racine du projet et viens générer un fichier goss_projet.yaml pour venir le tester par la suite avec Goss')
+            ->setHelp('Récupère le composer.json à la racine du projet et vient générer un fichier goss_projet.yaml pour venir le tester par la suite avec Goss')
             ->addOption(
                 'ansible-path',
                 'a',
                 InputOption::VALUE_REQUIRED,
-                "Récupérer les variables d'environnement Ansible du projet"
+                'Récupérer les variables Ansible du projet'
             )
 
         ;
