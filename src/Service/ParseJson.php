@@ -25,8 +25,7 @@ class ParseJson
         $jsonData = json_decode($json, true); //Convertit la chaîne json en variable PHP
         $extensions = $jsonData['require']; //Recherche de la mention 'require' pour obtenir la liste des extensions
         $keys = array_keys($extensions);
-        $pattern = '/^ext-/i';
-        $array = preg_grep($pattern, $keys);
+        $array = preg_grep('/^ext-/i', $keys);
         $yaml = array_values($array);
         $url = $this->getHost($ansible);
 
