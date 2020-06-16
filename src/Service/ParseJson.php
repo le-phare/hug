@@ -30,6 +30,7 @@ class ParseJson
             $url = $this->getHost($ansible);
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
+
             return;
         }
 
@@ -40,7 +41,7 @@ class ParseJson
             'http' => [
                 $url => [
                     'status' => 200,
-                    'body' => array_values($array)
+                    'body' => array_values($array),
                 ],
             ],
         ], 4, 2);
@@ -56,7 +57,7 @@ class ParseJson
             throw new \Exception('Le fichier Ansible est introuvable');
         }
         $temp1 = file_get_contents($ansible);
-        if (empty($temp1)==false){
+        if (false == empty($temp1)) {
             throw new \Exception('Le fichier Ansible est vide');
         }
         $temp2 = explode(PHP_EOL, $temp1);
