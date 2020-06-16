@@ -16,7 +16,7 @@ class ParseJson
     public function __construct()
     {
         $this->logger = new Logger('hugLog');
-        $this->logger->pushHandler(new StreamHandler('php://stdout', Logger::INFO));
+        $this->logger->pushHandler(new StreamHandler('php://stdout'));
     }
 
     public function ParseJson(string $ansible): void
