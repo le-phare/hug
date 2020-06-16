@@ -22,16 +22,16 @@ class HugCommand extends Command
         $this->parseJson = $parseJson;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription("(TEST CONFIGURATION) - Génère un fichier goss_projet.yaml à partir d'un composer.json")
-            ->setHelp('Récupère le composer.json à la racine du projet et viens générer un fichier goss_projet.yaml pour venir le tester par la suite avec Goss')
+            ->setHelp('Récupère le composer.json à la racine du projet et vient générer un fichier goss_projet.yaml pour venir le tester par la suite avec Goss')
             ->addOption(
                 'ansible-path',
-                'anspath',
+                'a',
                 InputOption::VALUE_REQUIRED,
-                "Récupérer les variables d'environnement Ansible du projet"
+                'Récupérer les variables Ansible du projet'
             )
 
         ;
@@ -40,12 +40,17 @@ class HugCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln([
-        'Génération du goss_projet.yaml',
-        '==============================',
-    ]);
+            'Génération du goss_projet.yaml',
+            '==============================',
+        ]);
         $ansible = $input->getOption('ansible-path');
         $this->parseJson->ParseJson($ansible);
-        // TODO: si fichier écrasé, le précisé dans les logs
+        if ($output->isVerbose()) {
+            $output->writeln('Fichier goss généré : ');
+            $output->writeln(
+                file_get_contents('./fichierGoss/goss_projet.yaml'));
+        }
+
         return Command::SUCCESS;
     }
 }
