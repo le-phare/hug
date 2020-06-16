@@ -16,7 +16,7 @@ class ParseJson
     public function __construct()
     {
         $this->logger = new Logger('hugLog');
-        $this->logger->pushHandler(new StreamHandler('php://stdout', Logger::INFO));
+        $this->logger->pushHandler(new StreamHandler('php://stdout'));
     }
 
     public function ParseJson(string $ansible): void
@@ -41,7 +41,7 @@ class ParseJson
             'http' => [
                 $url => [
                     'status' => 200,
-                    'body' => $yaml,
+                    'body' => array_values($array)
                 ],
             ],
         ], 4, 2);
@@ -58,6 +58,7 @@ class ParseJson
         }
         $temp1 = file_get_contents($ansible);
         $temp2 = explode(PHP_EOL, $temp1);
+	// TODO: si le fichier est vide, ça plante car ton tableau sera vide
         $url = $temp2[1];
         $this->logger->info('Url de la machine à tester', ['url :' => $url]);
 
