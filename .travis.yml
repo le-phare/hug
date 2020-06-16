@@ -1,0 +1,19 @@
+language: php
+php:
+  - '7.4'
+
+stages:
+  - qualite
+  - name: build
+    ##if: branch = master
+
+jobs:
+  include:
+    - stage: qualite
+      before_script:
+        - composer global require hirak/prestissimo --no-interaction --no-progress --no-suggest
+        - composer validate
+        - composer install --prefer-dist --no-interaction --no-progress --no-suggest --dev
+      script:
+        - composer run lint:php-cs-fixer
+        - composer run lint:phpstan
