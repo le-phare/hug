@@ -5,7 +5,7 @@
     "description": "Application console Symfony pour générer le fichier goss.yaml à partir d'un composer.json",
     "autoload": {
         "psr-4": {
-           "Hug\\": "src"
+            "Hug\\": "src"
         },
         "classmap": ["src"]
     },
