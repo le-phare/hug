@@ -17,3 +17,15 @@ jobs:
       script:
         - composer run lint:php-cs-fixer
         - composer run lint:phpstan
+jobs1:
+  include:
+    - stage: build
+      script:
+        - composer global require hirak/prestissimo --no-interaction --no-progress --no-suggest
+        - composer require --dev bamarni/composer-bin-plugin
+        - composer bin box require --dev humbug/box
+        - vendor/bin/box compile
+  addons:
+    artifacts:
+      paths:
+        - hug.phar
