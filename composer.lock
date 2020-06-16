@@ -195,16 +195,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v5.1.0",
+            "version": "v5.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "00bed125812716d09b163f0727ef33bb49bf3448"
+                "reference": "34ac555a3627e324b660e318daa07572e1140123"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/00bed125812716d09b163f0727ef33bb49bf3448",
-                "reference": "00bed125812716d09b163f0727ef33bb49bf3448",
+                "url": "https://api.github.com/repos/symfony/console/zipball/34ac555a3627e324b660e318daa07572e1140123",
+                "reference": "34ac555a3627e324b660e318daa07572e1140123",
                 "shasum": ""
             },
             "require": {
@@ -284,7 +284,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-05-30T20:35:19+00:00"
+            "time": "2020-06-15T12:59:21+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -348,7 +348,7 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v5.1.0",
+            "version": "v5.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
@@ -928,16 +928,16 @@
         },
         {
             "name": "symfony/string",
-            "version": "v5.1.0",
+            "version": "v5.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "90c2a5103f07feb19069379f3abdcdbacc7753a9"
+                "reference": "ac70459db781108db7c6d8981dd31ce0e29e3298"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/90c2a5103f07feb19069379f3abdcdbacc7753a9",
-                "reference": "90c2a5103f07feb19069379f3abdcdbacc7753a9",
+                "url": "https://api.github.com/repos/symfony/string/zipball/ac70459db781108db7c6d8981dd31ce0e29e3298",
+                "reference": "ac70459db781108db7c6d8981dd31ce0e29e3298",
                 "shasum": ""
             },
             "require": {
@@ -1009,11 +1009,11 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-05-20T17:43:50+00:00"
+            "time": "2020-06-11T12:16:36+00:00"
         },
         {
             "name": "symfony/yaml",
-            "version": "v5.1.0",
+            "version": "v5.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
@@ -1980,16 +1980,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.28",
+            "version": "0.12.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "76c0c4ec90b1eed66fa4855b8b4b53fa9054353f"
+                "reference": "9771daaf6b95c6313b908d0bcdee0afcd51f838a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/76c0c4ec90b1eed66fa4855b8b4b53fa9054353f",
-                "reference": "76c0c4ec90b1eed66fa4855b8b4b53fa9054353f",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/9771daaf6b95c6313b908d0bcdee0afcd51f838a",
+                "reference": "9771daaf6b95c6313b908d0bcdee0afcd51f838a",
                 "shasum": ""
             },
             "require": {
@@ -2032,7 +2032,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-06-10T06:20:14+00:00"
+            "time": "2020-06-14T14:10:59+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -2984,7 +2984,7 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v5.1.0",
+            "version": "v5.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
@@ -3142,7 +3142,7 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v5.1.0",
+            "version": "v5.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
@@ -3205,7 +3205,7 @@
         },
         {
             "name": "symfony/options-resolver",
-            "version": "v5.1.0",
+            "version": "v5.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/options-resolver.git",
@@ -3417,7 +3417,7 @@
         },
         {
             "name": "symfony/process",
-            "version": "v5.1.0",
+            "version": "v5.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
@@ -3481,7 +3481,7 @@
         },
         {
             "name": "symfony/stopwatch",
-            "version": "v5.1.0",
+            "version": "v5.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/stopwatch.git",
@@ -3545,7 +3545,7 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v5.1.0",
+            "version": "v5.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",

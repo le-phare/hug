@@ -1,6 +1,0 @@
-http:
-  pp.proxibleus.com:
-    status: 200
-    body:
-      - ext-json
-      - ext-test

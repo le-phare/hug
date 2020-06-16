@@ -24,11 +24,15 @@ class ParseJson
         $json = file_get_contents('./tests/composer.json'); //Récupération du contenu du composer.json
         $jsonData = json_decode($json, true); //Convertit la chaîne json en variable PHP
         $extensions = $jsonData['require']; //Recherche de la mention 'require' pour obtenir la liste des extensions
-        $keys = array_keys($extensions);
-        $pattern = '/^ext-/i';
-        $array = preg_grep($pattern, $keys);
-        $yaml = array_values($array);
-        $url = $this->getHost($ansible);
+        $keys = \array_keys($extensions);
+        $array = preg_grep('/^ext-/i', $keys);
+        $yaml = \array_values($array);
+        try {
+            $url = $this->getHost($ansible);
+        } catch (\Exception $e) {
+            $this->logger->error($e->getMessage());
+            return;
+        }
 
         if (file_exists('./fichierGoss/goss_projet.yaml')) {
             $this->logger->info('Le fichier goss_projet.yaml existe déjà, il va être supprimé');
@@ -44,8 +48,14 @@ class ParseJson
         file_put_contents('./fichierGoss/goss_projet.yaml', $template);
     }
 
+    /**
+     * @throws \Exception
+     */
     private function getHost(string $ansible): string
     {
+        if (!file_exists($ansible)) {
+            throw new \Exception('Le fichier Ansible est introuvable');
+        }
         $temp1 = file_get_contents($ansible);
         $temp2 = explode(PHP_EOL, $temp1);
         $url = $temp2[1];
