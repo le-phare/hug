@@ -1,31 +1,25 @@
-# Hug
+#Hug
 
-- Outil d'interprétation d'un composer.json et édition d'un fichier
-goss_projet.yaml à la volée pour vérifier la présence d'extensions spécifiques
-au projet (Hors config Faros).
+- Hug is a tool for interpreting a composer.json and editing a Goss file on the fly to check for project specific extensions (excluding Faros configuration)
 
-## Fonctionnement
+## Install
 
-- Hug vient récupérer le composer.json à la racine du projet et le parser afin
-de récupérer les extensions nécessaires au bon fonctionnement de votre projet.
+## How it works
 
-- Ensuite il viendra récupérer l'url du projet à tester dans votre fichier
-"hosts" contenu dans les variables d'environnement de votre dossier Ansible
-(Production ou Preprod)
+- Hug comes to retrieve the composer.json at the root of the project and parses it in order to retrieve the extensions necessary for the proper functioning of your project.
 
-- Le ficher goss_projet.yaml viendra alors se générer dans le dossier
-correspondant (./fichierGoss)
+- It will retrieve the project's url to be tested in your "hosts" file contained in the environment variables of your Ansible folder (Production or Preprod)
 
-## Usage
+- The goss_project.yaml file will then be generated in the corresponding folder (./fichierGoss)
 
-- Option obligatoire : --ansible-path | -a
-- Exemple (dans un conteneur Docker) : dc run --rm hug.phar --ansible-path=./path/to/ansible/environnement/hosts
-- Note : pas de '=' avec le raccourci -a : dc run --rm hug.phar -a ./path/to/ansible/environnement/hosts
+## How to use it
+
+- Required option : --ansible-path | -a
+- Example (in a docker container) : dc run --rm hug.phar --ansible-path=./path/to/ansible/environnement/hosts
+- Note : no '=' with the shortcut '-a' : dc run --rm hug.phar -a ./path/to/ansible/environnement/hosts
 
 ## Requirements
 
-- Votre fichier ./ansible/environnement/hosts doit être au format :
-
+- Your ./ansible/environnement/hosts file must be in :  
 [app]  
-'url du projet'
-
+'project's url' 
