@@ -1,0 +1,110 @@
+package:
+  git:
+    installed: true
+  curl:
+    installed: true
+  apache2:
+    installed: true
+port:
+  tcp:443:
+    listening: true
+  tcp:80:
+    listening: true
+  tcp:22:
+    listening: true
+  tcp:9418:
+    listening: true    
+file:
+  ~/.ssh/authorized_keys:
+    exists: true
+    mode: "0600"
+command:
+  diff:
+    exit-status: 0
+    exec: "diff ~/.ssh/authorized_keys ~/.test/lephare.keys -s -q"
+  ssh:
+    exit-status: 0
+    exec: "ssh -T git@gitlab.com"
+    exec: "ssh -T git@gitlab.lephare.io"
+    exec: "ssh -T bitbucket.org"
+    exec: "ssh -T git@github.com"
+http:
+  http://proxibleus.hde.lph/test_faros.php:
+    status : 200
+    body:
+       - DocumentRoot:OK
+       # Pré-requis Symfony
+       - ctype
+       - iconv
+       - json
+       - pcre
+       - session
+       - SimpleXML
+       - tokenizer
+        # Extensions supplémentaires pour nos applications
+       - curl
+       - gd
+       - intl
+       - mbstring
+       - pdo
+       - pdo-pgsql
+       - pgsql
+       - posix
+       - xml
+       - opcache
+       - memcached
+       - imagick
+       - apcu
+       - apcu-bc
+       - exif
+       - zip
+       - soap
+       - short_open_tag=off
+       - magic_quotes_gpc=off
+       - register_globals=off
+       - session.autostart=off
+       - date.timezone=Europe/Paris
+       - upload_max_filesize=32M
+       - post_max_size=33M
+       - sys_temp_dir=/var/tmp
+       - upload_dir=/var/tmp
+       - session.save_handler=memcached
+       - session.save_path=localhost:11211
+       - memcached.sess_lock_wait_min=150
+       - memcached.sess_lock_wait_max=150
+       - memcached.sess_lock_retries=800
+       - opcache.revalidate_freq=0
+       - opcache.validate_timestamps=0
+       - opcache.max_accelerated_files=7963
+       - opcache.memory_consumption=192
+       - opcache.interned_strings_buffer=16
+       - opcache.fast_shutdown=1
+  https://github.com:
+    status: 200
+  https://api.github.com:
+    status: 200
+  https://codeload.github.com:
+    status: 200    
+  https://bitbucket.org:
+    status: 200
+  https://gitlab.com:
+    status: 200
+  https://gitlab.lephare.io:
+    status: 200
+  https://packagist.org:
+    status: 200
+  https://repo.packagist.org:
+    status: 200
+  https://packagist.com:
+    status: 200
+  https://repo.packagist.com:
+    status: 200
+  https://getcomposer.org:
+    status: 200    
+  https://sentry.io:
+    status: 200           
+  https://faros.lephare.com:
+    status: 200       
+
+    #module Apache à ajouter
+    #dc exec php ./goss validate
