@@ -24,12 +24,9 @@ command:
     exec: "diff ~/.ssh/authorized_keys ~/.test/lephare.keys -s -q"
   ssh:
     exit-status: 0
-    exec: "ssh -T git@gitlab.com"
-    exec: "ssh -T git@gitlab.lephare.io"
-    exec: "ssh -T bitbucket.org"
-    exec: "ssh -T git@github.com"
+    exec: "ssh -oStrictHostKeyChecking=no git@gitlab.com -T && ssh -oStrictHostKeyChecking=no git@gitlab.lephare.io -T && ssh -oStrictHostKeyChecking=no bitbucket.org -T && ssh -oStrictHostKeyChecking=no git@github.com -T"
 http:
-  http://proxibleus.hde.lph/test_faros.php:
+  url:
     status : 200
     body:
        - DocumentRoot:OK
@@ -105,6 +102,3 @@ http:
     status: 200           
   https://faros.lephare.com:
     status: 200       
-
-    #module Apache à ajouter
-    #dc exec php ./goss validate

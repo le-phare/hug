@@ -40,7 +40,8 @@ class HugCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln([
-            'Génération du goss_projet.yaml',
+            '==============================',
+            '==============HUG=============',
             '==============================',
         ]);
         $ansible = $input->getOption('ansible-path');
@@ -48,7 +49,7 @@ class HugCommand extends Command
         if ($output->isVerbose()) {
             $output->writeln('Fichier goss généré : ');
             $output->writeln(
-                file_get_contents('./fichierGoss/goss_projet.yaml'));
+                file_get_contents('./fichierGoss/goss.yaml'));
         }
 
         return Command::SUCCESS;

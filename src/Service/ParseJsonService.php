@@ -24,37 +24,28 @@ class ParseJsonService
         $this->logger->pushHandler(new StreamHandler('php://stdout'));
     }
 
-    public function ParseJson(string $ansible, string $composerPath = './tests/mock/composer.json'): void
+    public function ParseJson(string $ansible, string $composerPath = './composer.json'): void
     {
         $json = file_get_contents($composerPath); //Récupération du contenu du composer.json
         $jsonData = json_decode($json, true); //Convertit la chaîne json en variable PHP
         $extensions = $jsonData['require']; //Recherche de la mention 'require' pour obtenir la liste des extensions
         $keys = \array_keys($extensions);
 
-        if (preg_grep('/^\b(faros-ng)\b/i', $keys))
-        {
+        if (preg_grep('/^\b(faros-ng)\b/i', $keys)) {
             $faros = file_get_contents('./templateFaros/templateFaros_10.yaml');
             if (file_exists($this->path)) {
                 $this->logger->info('Le fichier goss.yaml existe déjà, il va être supprimé');
             }
             $this->logger->info('Version 10 de Faros détectée');
-            file_put_contents($this->path,$faros);
-        }
-        else if (preg_grep('/^\b(faros)\b/i', $keys))
-        {
+            file_put_contents('./fichierGoss/goss.yaml', $faros);
+        } elseif (preg_grep('/^\b(faros)\b/i', $keys)) {
             $faros = file_get_contents('./templateFaros/templateFaros_9.yaml');
             if (file_exists($this->path)) {
                 $this->logger->info('Le fichier goss.yaml existe déjà, il va être supprimé');
             }
             $this->logger->info('Version 9 de Faros détectée');
-            file_put_contents($this->path,$faros);
+            file_put_contents($this->path, $faros);
         }
-        $value = Yaml::parseFile($this->path);
-        $temp = \array_keys($value,"http: http");
-        var_dump($temp);
-
-
-        $array = preg_grep('/^ext-/i', $keys);
         try {
             $url = $this->getHost($ansible);
         } catch (\Exception $e) {
@@ -62,21 +53,30 @@ class ParseJsonService
 
             return;
         }
+        $arrayTemp = preg_grep('/^ext-/i', $keys);
+        $arrayExt = preg_replace('/^ext-/i', '', $arrayTemp);
+        $value = Yaml::parseFile($this->path);
+        $temp = $value['http']['url'];
+        $value = array_filter($value, function ($key) {
+            return 'http' !== $key;
+        }, ARRAY_FILTER_USE_KEY);
 
-        $template = Yaml::dump([
+        $array_merge = array_merge($temp['body'], array_values($arrayExt));
+        $body = array_values(array_unique($array_merge));
+        $http = [
             'http' => [
                 $url => [
                     'status' => 200,
-                    'body' => \array_values($array),
+                    'body' => $body,
                 ],
             ],
-        ], 4, 2);
+        ];
+
+        $template = Yaml::dump(array_merge($value, $http), 4, 2);
         file_put_contents($this->path, $template);
     }
 
     /**
-     * @param string $ansible
-     * @return string
      * @throws \Exception
      */
     private function getHost(string $ansible): string

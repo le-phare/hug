@@ -33,7 +33,7 @@ class HugCommandTest extends TestCase
         $this->fileSystem = new Filesystem();
         $this->root = './tests/mock/';
         $this->path = $this->root.'hosts';
-        $this->file = 'fichierGoss/goss_projet.yaml';
+        $this->file = 'fichierGoss/goss.yaml';
     }
 
     public function testExecute(): void
