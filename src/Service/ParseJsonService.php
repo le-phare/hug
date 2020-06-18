@@ -24,7 +24,7 @@ class ParseJsonService
         $this->logger->pushHandler(new StreamHandler('php://stdout'));
     }
 
-    public function ParseJson(string $ansible, string $composerPath = './composer.json'): void
+    public function ParseJson(string $ansible, string $composerPath = './tests/mock/composer.json'): void
     {
         $json = file_get_contents($composerPath); //Récupération du contenu du composer.json
         $jsonData = json_decode($json, true); //Convertit la chaîne json en variable PHP
@@ -65,7 +65,7 @@ class ParseJsonService
         $body = array_values(array_unique($array_merge));
         $http = [
             'http' => [
-                $url => [
+                $url.'/sonde_faros.php' => [
                     'status' => 200,
                     'body' => $body,
                 ],

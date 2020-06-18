@@ -1,4 +1,4 @@
-#Hug
+# Hug
 
 - Hug is a tool for interpreting a composer.json and editing a Goss file on the fly to check for project specific extensions (excluding Faros configuration)
 
@@ -22,4 +22,10 @@
 
 - Your ./ansible/environnement/hosts file must be in :  
 [app]  
-'project's url' 
+'project's url'
+
+## Maintenance (Faros)
+
+- If a new version of Faros comes out, you have to modify the script in the ParseJsonService.php file to match the pattern with the name of the faros bundle (faros or faros-ng for current versions) in your require section of composer.json
+
+- You must also modify the faros templates (./templateFaros) to update them if needed. 
