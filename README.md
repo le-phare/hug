@@ -4,7 +4,7 @@
 
 ## Install
 
-First you need to download the latest release of Hug here : 
+First you need to download the latest release of Hug here : https://github.com/le-phare/hug/releases/latest
 
 - dc run --rm php composer install
 - dc run --rm php composer bin box require --dev humbug/box
