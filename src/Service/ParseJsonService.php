@@ -24,7 +24,7 @@ class ParseJsonService
         $this->logger->pushHandler(new StreamHandler('php://stdout'));
     }
 
-    public function ParseJson(string $ansible, string $composerPath = './tests/mock/composer.json'): bool
+    public function ParseJson(string $ansible, string $composerPath = './composer.json'): bool
     {
         if (!file_exists($composerPath)) {
             $this->logger->error('Le fichier composer.json est introuvable');
