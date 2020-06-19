@@ -20,32 +20,22 @@ class ParseJsonService
     public function __construct()
     {
         $this->logger = new Logger('hugLog');
-        $this->path = './fichierGoss/goss.yaml';
+        $this->path = './generatedFiles/goss.yaml';
         $this->logger->pushHandler(new StreamHandler('php://stdout'));
     }
 
-    public function ParseJson(string $ansible, string $composerPath = './tests/mock/composer.json'): void
+    public function ParseJson(string $ansible, string $composerPath = './composer.json'): void
     {
+        if (!file_exists($composerPath)) {
+            $this->logger->error('Le fichier composer.json est introuvable');
+
+            return;
+        }
         $json = file_get_contents($composerPath); //Récupération du contenu du composer.json
         $jsonData = json_decode($json, true); //Convertit la chaîne json en variable PHP
         $extensions = $jsonData['require']; //Recherche de la mention 'require' pour obtenir la liste des extensions
         $keys = \array_keys($extensions);
-
-        if (preg_grep('/^\b(faros-ng)\b/i', $keys)) {
-            $faros = file_get_contents('./templateFaros/templateFaros_10.yaml');
-            if (file_exists($this->path)) {
-                $this->logger->info('Le fichier goss.yaml existe déjà, il va être supprimé');
-            }
-            $this->logger->info('Version 10 de Faros détectée');
-            file_put_contents('./fichierGoss/goss.yaml', $faros);
-        } elseif (preg_grep('/^\b(faros)\b/i', $keys)) {
-            $faros = file_get_contents('./templateFaros/templateFaros_9.yaml');
-            if (file_exists($this->path)) {
-                $this->logger->info('Le fichier goss.yaml existe déjà, il va être supprimé');
-            }
-            $this->logger->info('Version 9 de Faros détectée');
-            file_put_contents($this->path, $faros);
-        }
+        $this->generateTemplate($keys);
         try {
             $url = $this->getHost($ansible);
         } catch (\Exception $e) {
@@ -60,7 +50,10 @@ class ParseJsonService
         $value = array_filter($value, function ($key) {
             return 'http' !== $key;
         }, ARRAY_FILTER_USE_KEY);
-
+        $arrayExtensions = array_diff(array_values($arrayExt), $temp['body']);
+        if (!empty($arrayExtensions)) {
+            $this->modifSonde($arrayExtensions);
+        }
         $array_merge = array_merge($temp['body'], array_values($arrayExt));
         $body = array_values(array_unique($array_merge));
         $http = [
@@ -71,7 +64,6 @@ class ParseJsonService
                 ],
             ],
         ];
-
         $template = Yaml::dump(array_merge($value, $http), 4, 2);
         file_put_contents($this->path, $template);
     }
@@ -93,5 +85,44 @@ class ParseJsonService
         $this->logger->info('Url de la machine à tester', ['url :' => $url]);
 
         return $url;
+    }
+
+    /**
+     * @param array<string> $keys
+     */
+    private function generateTemplate(array $keys): void
+    {
+        if (preg_grep('/^\b(faros-ng)\b/i', $keys)) {
+            $faros = file_get_contents('./srcFaros/templateFaros_10.yaml');
+            if (file_exists($this->path)) {
+                $this->logger->info('Le fichier goss.yaml existe déjà, il va être supprimé');
+            }
+            $this->logger->info('Version 10 de Faros détectée');
+            file_put_contents($this->path, $faros);
+        } elseif (preg_grep('/^\b(faros)\b/i', $keys)) {
+            $faros = file_get_contents('./srcFaros/templateFaros_9.yaml');
+            if (file_exists($this->path)) {
+                $this->logger->info('Le fichier goss.yaml existe déjà, il va être supprimé');
+            }
+            $this->logger->info('Version 9 de Faros détectée');
+            file_put_contents($this->path, $faros);
+        }
+    }
+
+    /**
+     * @param array<string> $projet
+     */
+    private function modifSonde(array $projet): void
+    {
+        $ext = array_values($projet);
+        $this->logger->info('Extensions spécifiques au projet détectées, modification de la sonde Faros');
+        $sonde = file_get_contents('./srcFaros/sonde_faros.php');
+        file_put_contents('./generatedFiles/sonde_faros.php', $sonde);
+        $writeStart = "\necho '<pre>';\n";
+        $writeEnd = "echo '</pre>';\n";
+        foreach ($ext as $value) {
+            $writeStart .= "echo '".$value."';\n";
+        }
+        file_put_contents('./generatedFiles/sonde_faros.php', $writeStart.$writeEnd, FILE_APPEND);
     }
 }

@@ -4,19 +4,25 @@
 
 ## Install
 
+First you need to download the latest release of Hug here : 
+
+- dc run --rm php composer install
+- dc run --rm php composer bin box require --dev humbug/box
+- dc run --rm php vendor/bin/box compile
+
 ## How it works
 
-- Hug comes to retrieve the composer.json at the root of the project and parses it in order to retrieve the extensions necessary for the proper functioning of your project.
+- Hug comes to retrieve the composer.json in the "yourComposerJson" folder (to prevent him from processing Hug's composer.json) and parses it in order to retrieve the extensions necessary for the proper functioning of your project.
 
 - It will retrieve the project's url to be tested in your "hosts" file contained in the environment variables of your Ansible folder (Production or Preprod)
 
-- The goss_project.yaml file will then be generated in the corresponding folder (./fichierGoss)
+- The goss.yaml file will then be generated in the corresponding folder (./generatedFiles) and for Faros users, generate the modified probe in the same folder.
 
 ## How to use it
 
 - Required option : --ansible-path | -a
-- Example (in a docker container) : dc run --rm hug.phar --ansible-path=./path/to/ansible/environnement/hosts
-- Note : no '=' with the shortcut '-a' : dc run --rm hug.phar -a ./path/to/ansible/environnement/hosts
+- Example (in a docker container) : dc run --rm php php hug.phar --ansible-path=./path/to/ansible/environnement/hosts
+- Note : no '=' with the shortcut '-a' : dc run --rm php php hug.phar -a ./path/to/ansible/environnement/hosts
 
 ## Requirements
 
@@ -28,4 +34,4 @@
 
 - If a new version of Faros comes out, you have to modify the script in the ParseJsonService.php file to match the pattern with the name of the faros bundle (faros or faros-ng for current versions) in your require section of composer.json
 
-- You must also modify the faros templates (./templateFaros) to update them if needed. 
+- You must also modify the faros templates and it's probe (./srcFaros) to update them if necessary. 

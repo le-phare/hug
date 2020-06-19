@@ -25,8 +25,8 @@ class HugCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription("(TEST CONFIGURATION) - Génère un fichier goss_projet.yaml à partir d'un composer.json")
-            ->setHelp('Récupère le composer.json à la racine du projet et vient générer un fichier goss_projet.yaml pour venir le tester par la suite avec Goss')
+            ->setDescription("(TEST CONFIGURATION) - Génère un fichier goss.yaml à partir d'un composer.json")
+            ->setHelp('Récupère le composer.json à la racine du projet et vient générer un fichier goss.yaml pour venir le tester par la suite avec Goss')
             ->addOption(
                 'ansible-path',
                 'a',
@@ -49,7 +49,7 @@ class HugCommand extends Command
         if ($output->isVerbose()) {
             $output->writeln('Fichier goss généré : ');
             $output->writeln(
-                file_get_contents('./fichierGoss/goss.yaml'));
+                file_get_contents('./generatedFiles/goss.yaml'));
         }
 
         return Command::SUCCESS;

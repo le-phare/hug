@@ -32,4 +32,8 @@ class ParseJsonTest extends TestCase
         $init = new ParseJsonService();
         $init->ParseJson($this->ansiblePath, $this->composerPath);
     }
+
+    public function testOutput(): void
+    {
+    }
 }

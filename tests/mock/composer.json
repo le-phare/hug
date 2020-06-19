@@ -25,6 +25,7 @@
         "php": ">=7.2",
         "ext-json": "*",
         "ext-test": "*",
+        "ext-test2": "*",
         "barryvdh/elfinder-flysystem-driver": "^0.2.1",
         "ddtraceweb/monolog-parser": "^1.2",
         "doctrine/doctrine-bundle": "^1.6",
