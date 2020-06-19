@@ -24,24 +24,35 @@ class ParseJsonService
         $this->logger->pushHandler(new StreamHandler('php://stdout'));
     }
 
-    public function ParseJson(string $ansible, string $composerPath = './composer.json'): void
+    public function ParseJson(string $ansible, string $composerPath = './tests/mock/composer.json'): bool
     {
         if (!file_exists($composerPath)) {
             $this->logger->error('Le fichier composer.json est introuvable');
 
-            return;
+            return false;
         }
         $json = file_get_contents($composerPath); //Récupération du contenu du composer.json
         $jsonData = json_decode($json, true); //Convertit la chaîne json en variable PHP
+        if (!\array_key_exists('require', $jsonData)) {
+            $this->logger->error('Aucune mention require dans le projet');
+
+            return false;
+        }
         $extensions = $jsonData['require']; //Recherche de la mention 'require' pour obtenir la liste des extensions
         $keys = \array_keys($extensions);
-        $this->generateTemplate($keys);
+        $farosVersion = $this->getFarosVersion($keys);
+        if (null !== $farosVersion) {
+            $this->generateTemplate($farosVersion);
+        } else {
+            $defaultTemplate = file_get_contents('./srcFaros/template.yaml');
+            file_put_contents($this->path, $defaultTemplate);
+        }
         try {
             $url = $this->getHost($ansible);
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
 
-            return;
+            return false;
         }
         $arrayTemp = preg_grep('/^ext-/i', $keys);
         $arrayExt = preg_replace('/^ext-/i', '', $arrayTemp);
@@ -50,11 +61,11 @@ class ParseJsonService
         $value = array_filter($value, function ($key) {
             return 'http' !== $key;
         }, ARRAY_FILTER_USE_KEY);
-        $arrayExtensions = array_diff(array_values($arrayExt), $temp['body']);
+        $arrayExtensions = array_diff(array_values($arrayExt), $temp['body'] ?? []);
         if (!empty($arrayExtensions)) {
             $this->modifSonde($arrayExtensions);
         }
-        $array_merge = array_merge($temp['body'], array_values($arrayExt));
+        $array_merge = array_merge($temp['body'] ?? [], array_values($arrayExt));
         $body = array_values(array_unique($array_merge));
         $http = [
             'http' => [
@@ -66,6 +77,8 @@ class ParseJsonService
         ];
         $template = Yaml::dump(array_merge($value, $http), 4, 2);
         file_put_contents($this->path, $template);
+
+        return true;
     }
 
     /**
@@ -87,26 +100,44 @@ class ParseJsonService
         return $url;
     }
 
-    /**
-     * @param array<string> $keys
-     */
-    private function generateTemplate(array $keys): void
+    private function generateTemplate(string $farosVersion): void
     {
-        if (preg_grep('/^\b(faros-ng)\b/i', $keys)) {
+        if ('10' === $farosVersion) {
             $faros = file_get_contents('./srcFaros/templateFaros_10.yaml');
             if (file_exists($this->path)) {
                 $this->logger->info('Le fichier goss.yaml existe déjà, il va être supprimé');
             }
-            $this->logger->info('Version 10 de Faros détectée');
             file_put_contents($this->path, $faros);
-        } elseif (preg_grep('/^\b(faros)\b/i', $keys)) {
+
+            return;
+        }
+        if ('9' === $farosVersion) {
             $faros = file_get_contents('./srcFaros/templateFaros_9.yaml');
             if (file_exists($this->path)) {
                 $this->logger->info('Le fichier goss.yaml existe déjà, il va être supprimé');
             }
-            $this->logger->info('Version 9 de Faros détectée');
             file_put_contents($this->path, $faros);
+
+            return;
         }
+    }
+
+    /**
+     * @param array<string> $requirements
+     */
+    private function getFarosVersion(array $requirements): ?string
+    {
+        if (preg_grep('/^\b(faros-ng)\b/i', $requirements)) {
+            $this->logger->info('Version 10 de Faros détectée');
+
+            return '10';
+        } elseif (preg_grep('/^\b(faros)\b/i', $requirements)) {
+            $this->logger->info('Version 9 de Faros détectée');
+
+            return '9';
+        }
+
+        return null;
     }
 
     /**

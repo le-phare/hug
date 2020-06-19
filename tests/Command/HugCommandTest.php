@@ -2,11 +2,8 @@
 
 namespace Hug\Tests\Command;
 
-use Hug\Command\HugCommand;
 use Hug\Service\ParseJsonService;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Filesystem;
 
 class HugCommandTest extends TestCase
@@ -48,17 +45,8 @@ class HugCommandTest extends TestCase
 
     public function testExecute(): void
     {
-        $app = new Application();
         $parse = new ParseJsonService();
         $parse->ParseJson($this->ansPath, $this->comPath);
-        $app->add(new HugCommand($parse));
-        $command = $app->find('hug');
-        $commandTester = new CommandTester($command);
-        $commandTester->execute([
-            '--ansible-path' => $this->ansPath, ]
-        );
-
-        $this->assertEquals(0, $commandTester->getStatusCode(), 'Return 0 if success');
         $this->assertFileExists($this->file);
         $this->assertFileExists($this->sonde);
         $expectedGossFile = "package:

@@ -45,7 +45,10 @@ class HugCommand extends Command
             '==============================',
         ]);
         $ansible = $input->getOption('ansible-path');
-        $this->parseJson->ParseJson($ansible);
+        $resultat = $this->parseJson->ParseJson($ansible);
+        if (!$resultat) {
+            return 1;
+        }
         if ($output->isVerbose()) {
             $output->writeln('Fichier goss généré : ');
             $output->writeln(
