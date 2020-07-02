@@ -6,9 +6,7 @@
 
 First you need to download the latest release of Hug here : https://github.com/le-phare/hug/releases/latest
 
-- dc run --rm php composer install
-- dc run --rm php composer bin box require --dev humbug/box
-- dc run --rm php vendor/bin/box compile
+You can also clone the project and build from sources with `make build`.
 
 ## How it works
 
