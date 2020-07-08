@@ -1,8 +1,0 @@
-version: '3'
-services:
-    php: 
-        user: 1000:1000
-        image: lephare/php:7.2
-        volumes:
-            - .:/var/www/symfony
-            - $HOME/.composer:/var/tmp/composer
