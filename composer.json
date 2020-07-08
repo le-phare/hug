@@ -22,13 +22,18 @@
         "monolog/monolog": "^2.1",
         "ext-json": "*"
     },
-
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.16",
         "symfony/var-dumper": "^5.1",
         "phpstan/phpstan": "^0.12.26",
         "phpunit/phpunit": "^7",
         "bamarni/composer-bin-plugin": "^1.4"
+    },
+    "config": {
+      "sort-packages": true,
+      "platform": {
+        "php": "7.2.12"
+      }
     },
     "scripts": {
         "lint:php-cs-fixer": "./vendor/bin/php-cs-fixer fix --stop-on-violation --config=.php_cs.dist -v --dry-run --using-cache=no --path-mode=intersection ./src ./tests",

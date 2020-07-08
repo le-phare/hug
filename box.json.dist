@@ -1,17 +1,20 @@
 {
-    "banner": [
-        "This file is part of Hug project",
-        "",
-        "https://gitlab.lephare.io/internal/hugo"
-    ],
-    "main": "hug.php",
-
-    "compression": "GZ",
-    "compactors": [
-        "KevinGH\\Box\\Compactor\\Php",
-        "KevinGH\\Box\\Compactor\\PhpScoper",
-        "KevinGH\\Box\\Compactor\\Json"
-    ],
-    "datetime": "release-date"
+  "banner": [
+    "This file is part of Hug project",
+    "",
+    "https://github.com/le-phare/hug"
+  ],
+  "main": "hug.php",
+  "directories": [
+    "src",
+    "templates",
+    "vendor"
+  ],
+  "compression": "GZ",
+  "compactors": [
+    "KevinGH\\Box\\Compactor\\Php",
+    "KevinGH\\Box\\Compactor\\PhpScoper",
+    "KevinGH\\Box\\Compactor\\Json"
+  ],
+  "datetime": "release-date"
 }
-

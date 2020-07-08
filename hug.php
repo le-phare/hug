@@ -1,16 +1,16 @@
 #!/usr/bin/env php
 <?php
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__.'/vendor/autoload.php';
 
-use Symfony\Component\Console\Application;
 use Hug\Command\HugCommand;
 use Hug\Service\ParseJsonService;
+use Symfony\Component\Console\Application;
 
-$app = new Application('hug','1.0.0');
+$app = new Application('hug', '@release-date@');
 $parseJson = new ParseJsonService();
 $command = new HugCommand($parseJson);
 
 $app->add($command);
-$app->setDefaultCommand($command->getName(),true);
+$app->setDefaultCommand($command->getName(), true);
 
-$app -> run();
+$app->run();

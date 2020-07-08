@@ -12,6 +12,10 @@ class ParseJsonService
      * @var Logger
      */
     private $logger;
+
+    /** @var string */
+    private $pathPrefix;
+
     /**
      * @var string
      */
@@ -20,8 +24,10 @@ class ParseJsonService
     public function __construct()
     {
         $this->logger = new Logger('hugLog');
-        $this->path = './generatedFiles/goss.yaml';
+        $this->path = getcwd();
         $this->logger->pushHandler(new StreamHandler('php://stdout'));
+        var_dump(\Phar::running());
+        $this->pathPrefix = \strlen(\Phar::running()) > 0 ? 'phar://.' : realpath(__DIR__.'/../..');
     }
 
     public function ParseJson(string $ansible, string $composerPath = './composer.json'): bool
@@ -41,12 +47,8 @@ class ParseJsonService
         $extensions = $jsonData['require']; //Recherche de la mention 'require' pour obtenir la liste des extensions
         $keys = \array_keys($extensions);
         $farosVersion = $this->getFarosVersion($keys);
-        if (null !== $farosVersion) {
-            $this->generateTemplate($farosVersion);
-        } else {
-            $defaultTemplate = file_get_contents('./srcFaros/template.yaml');
-            file_put_contents($this->path, $defaultTemplate);
-        }
+        $this->generateTemplate($farosVersion);
+
         try {
             $url = $this->getHost($ansible);
         } catch (\Exception $e) {
@@ -56,7 +58,7 @@ class ParseJsonService
         }
         $arrayTemp = preg_grep('/^ext-/i', $keys);
         $arrayExt = preg_replace('/^ext-/i', '', $arrayTemp);
-        $value = Yaml::parseFile($this->path);
+        $value = Yaml::parseFile($this->path.'/goss.yaml');
         $temp = $value['http']['url'];
         $value = array_filter($value, function ($key) {
             return 'http' !== $key;
@@ -76,7 +78,7 @@ class ParseJsonService
             ],
         ];
         $template = Yaml::dump(array_merge($value, $http), 4, 2);
-        file_put_contents($this->path, $template);
+        file_put_contents($this->path.'/goss.yaml', $template);
 
         return true;
     }
@@ -100,30 +102,29 @@ class ParseJsonService
         return $url;
     }
 
-    private function generateTemplate(string $farosVersion): void
+    private function generateTemplate(?string $farosVersion): void
     {
-        if ('10' === $farosVersion) {
-            $faros = file_get_contents('./srcFaros/templateFaros_10.yaml');
-            if (file_exists($this->path)) {
-                $this->logger->info('Le fichier goss.yaml existe déjà, il va être supprimé');
-            }
-            file_put_contents($this->path, $faros);
+        $templateFile = sprintf('%s/templates/templateFaros_%s.yaml', $this->pathPrefix, $farosVersion);
+        $outputPath = $this->path.'/goss.yaml';
 
-            return;
-        }
-        if ('9' === $farosVersion) {
-            $faros = file_get_contents('./srcFaros/templateFaros_9.yaml');
-            if (file_exists($this->path)) {
-                $this->logger->info('Le fichier goss.yaml existe déjà, il va être supprimé');
+        if (is_file($templateFile)) {
+            $faros = file_get_contents($templateFile);
+            if (file_exists($outputPath)) {
+                $this->logger->warning('Le fichier goss.yaml existe déjà, il va être supprimé');
             }
-            file_put_contents($this->path, $faros);
-
-            return;
+            file_put_contents($outputPath, $faros);
+        } else {
+            $defaultTemplate = file_get_contents($this->pathPrefix.'/templates/template.yaml');
+            file_put_contents($outputPath, $defaultTemplate);
         }
+
+        $this->logger->debug('Fichier {goss_yaml} généré', ['goss_yaml' => $outputPath]);
+
+        return;
     }
 
     /**
-     * @param array<string> $requirements
+     * @param string[] $requirements
      */
     private function getFarosVersion(array $requirements): ?string
     {
@@ -145,15 +146,19 @@ class ParseJsonService
      */
     private function modifSonde(array $projet): void
     {
+        $sondeFile = $this->path.'/sonde_faros.php';
         $ext = array_values($projet);
         $this->logger->info('Extensions spécifiques au projet détectées, modification de la sonde Faros');
-        $sonde = file_get_contents('./srcFaros/sonde_faros.php');
-        file_put_contents('./generatedFiles/sonde_faros.php', $sonde);
+        $sonde = file_get_contents($this->pathPrefix.'/templates/sonde_faros.php');
+        file_put_contents($sondeFile, $sonde);
+
+        $this->logger->debug('Fichier {sonde} généré', ['sonde' => $sondeFile]);
+
         $writeStart = "\necho '<pre>';\n";
         $writeEnd = "echo '</pre>';\n";
         foreach ($ext as $value) {
             $writeStart .= "echo '".$value."';\n";
         }
-        file_put_contents('./generatedFiles/sonde_faros.php', $writeStart.$writeEnd, FILE_APPEND);
+        file_put_contents($sondeFile, $writeStart.$writeEnd, FILE_APPEND);
     }
 }
