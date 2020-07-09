@@ -4,3 +4,7 @@ vendor/
 .idea/
 vendor-bin/
 *.phar
+.php_cs.cache
+/goss.yaml
+/sonde_faros.php
+
